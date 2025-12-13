@@ -1,0 +1,5 @@
+- [x] Update CSS untuk tema hijau menenangkan
+- [x] Ganti ikon halaman ke bulan (🌙)
+- [x] Revisi judul dan teks menjadi inspiratif dan bernilai ukhuwah
+- [x] Pastikan placeholder mudah diganti
+- [ ] Jalankan aplikasi untuk verifikasi
