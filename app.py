@@ -6,26 +6,35 @@ st.set_page_config(
     page_title="Album Kenangan IMAM",
     page_icon="🌙",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS for calming green Islamic theme
+# Custom CSS for Islamic theme with dark emerald background
 st.markdown("""
 <style>
     body {
-        background-color: #98FB98; /* Mint Green background */
-        color: #808000; /* Olive Green text */
+        background-color: #005b41; /* Dark emerald background */
+        color: #FFFFFF; /* White text for contrast */
         font-family: 'Arial', sans-serif;
     }
     .main {
-        background-color: #98FB98;
+        background-color: #005b41;
     }
     .stApp {
-        background-color: #98FB98;
+        background-color: #005b41;
     }
     h1, h2, h3 {
-        color: #008B8B; /* Dark Cyan (Emerald-like) */
+        color: #FFFFFF; /* White headers */
         text-align: center;
+    }
+    .stButton>button {
+        background-color: #FFFFFF;
+        color: #005b41;
+        border: 2px solid #FFFFFF;
+    }
+    .stButton>button:hover {
+        background-color: #F0F0F0;
+        border-color: #F0F0F0;
     }
     .photo-grid {
         display: flex;
@@ -45,20 +54,35 @@ st.markdown("""
         font-style: italic;
         text-align: center;
         margin: 20px 0;
-        color: #808000;
+        color: #FFFFFF;
+    }
+    .stSidebar {
+        background-color: #003d2b; /* Darker green sidebar */
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Title
-st.title("🌙 Album Kenangan IMAM 🌙")
+# Sidebar for organizational support text
+with st.sidebar:
+    st.markdown("### Tentang IMAM")
+    st.markdown("Ikatan Mahasiswa Muslim Amerika (IMAM) adalah organisasi yang berkomitmen untuk memperkuat ukhuwah dan pengembangan diri mahasiswa Muslim di Amerika.")
+    st.markdown("---")
+    st.markdown("**Visi:** Menjadi wadah bagi mahasiswa Muslim untuk berkontribusi positif bagi masyarakat.")
+    st.markdown("**Misi:** Meningkatkan pemahaman agama, pendidikan, dan solidaritas antar sesama.")
 
-# Inspirational introduction text
-st.markdown("""
-<div class="touching-text">
-    "Setiap kenangan adalah anugerah dari Allah. Mari kita perkuat ukhuwah melalui jejak-jejak indah yang telah kita lalui bersama."
-</div>
-""", unsafe_allow_html=True)
+# Header with logo and title
+col1, col2 = st.columns([1, 4])  # Small column for logo, larger for title
+
+with col1:
+    st.image("logo/Gambar_WhatsApp_2025-12-14_pukul_07.34.52_965dc02a-removebg-preview.png", width=80)
+
+with col2:
+    st.title("🌙 Album Kenangan IMAM 🌙")
+    st.markdown("""
+    <div class="touching-text">
+        "Setiap kenangan adalah anugerah dari Allah. Mari kita perkuat ukhuwah melalui jejak-jejak indah yang telah kita lalui bersama."
+    </div>
+    """, unsafe_allow_html=True)
 
 # Star animation on load for tranquility
 st.snow()
@@ -82,7 +106,7 @@ photo_paths = [
 cols = st.columns(3)
 for i, photo in enumerate(photo_paths):
     with cols[i % 3]:
-        st.image(photo, caption=f"Kenangan {i+1}", use_container_width=True)
+        st.image(photo, caption=f"Kenangan {i+1}", width='stretch')
 
 # Main video section
 st.header("Video Utama Kenangan")
@@ -100,8 +124,30 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Simple navigation or button (if more content)
+if "show_more" not in st.session_state:
+    st.session_state.show_more = False
+
 if st.button("Lihat Lebih Banyak Kenangan"):
-    st.info("Fitur lebih lanjut akan ditambahkan di sini!")
+    st.session_state.show_more = not st.session_state.show_more
+
+if st.session_state.show_more:
+    st.subheader("Link Kenangan Tambahan")
+    additional_links = [
+        ("WWR", "https://drive.google.com/drive/folders/1wbgyBU_QOjAn4Vohr73PR_nQEm73BSuK"),
+        ("IMBER 1", "https://drive.google.com/drive/folders/1Jff_wl8WBQoM00FBSW6N3XBTwOiYPMqz?usp=drive_link"),
+        ("IMBER 2", "https://drive.google.com/drive/folders/1C_vPvuhqEa-muo2xOORR4XVphgFlaTLZ"),
+        ("SEMINAR KEMUSLIMAHAN", "https://drive.google.com/drive/folders/1rNibp9MjbaBTY5v-G9pVfpFwq_tpAKZS"),
+        ("Idul adha", "https://drive.google.com/drive/folders/1Dtg2eHbJeQa3ffBD_Y1NQQ9hlGz3kPUm"),
+        ("Kajian Akbar", "https://drive.google.com/drive/folders/1-ertmL1D20WJZWvYbhUFUM5565TmWG7K"),
+        ("Kajian Syiar", "https://drive.google.com/drive/folders/1_eiGAXft_P2WIgaapURTBAVdyGkew-cq"),
+        ("Khataman 25 April", "https://drive.google.com/drive/folders/1L5GUxOzBGTFbCQXSPX4CdZKO2K2NHM90"),
+        ("Muharram", "https://drive.google.com/drive/folders/13d6sHpa8i4JRcH2excDM5Zn_spq9Vg0H"),
+        ("Simtudduror", "https://drive.google.com/drive/folders/1APHuLSXnToHjuXWWzzxo-wh_1r08Z7M0"),
+        ("Raker", "https://drive.google.com/drive/folders/1vNjqiPwFFsOXeiibRgQqPJ9lQ3SppaA-"),
+        ("Sidang ART", "https://drive.google.com/drive/folders/1-R4mhFtJHfALagOzal9fEfiLu5RU--KM")
+    ]
+    for name, link in additional_links:
+        st.markdown(f"[{name}]({link})", unsafe_allow_html=True)
 
 # Footer
 st.markdown("---")
