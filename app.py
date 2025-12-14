@@ -103,8 +103,8 @@ with col_main_tengah:
     st.markdown("---")
 
     # === B. VIDEO UTAMA ===
-    st.header("Video Utama Kenangan")
-    video_path = "assets/video/Video WhatsApp 2025-12-14 pukul 08.57.01_5f709ac2.mp4"
+    st.header("Video Utama Memory")
+    video_path = "https://drive.google.com/file/d/11grWg3bJbICl5p0RP5jCoQhjAFGvgA5V/view?usp=drive_link"
 
     # Sentralisasi Video di dalam Konten Tengah
     vid_col_kiri, vid_col_tengah, vid_col_kanan = st.columns([1, 4, 1])
