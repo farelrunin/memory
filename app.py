@@ -104,7 +104,7 @@ with col_main_tengah:
 
     # === B. VIDEO UTAMA ===
     st.header("Video Utama Kenangan")
-    video_path = "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4"
+    video_path = "assets/video/Video WhatsApp 2025-12-14 pukul 08.57.01_5f709ac2.mp4"
 
     # Sentralisasi Video di dalam Konten Tengah
     vid_col_kiri, vid_col_tengah, vid_col_kanan = st.columns([1, 4, 1])
