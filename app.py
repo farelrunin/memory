@@ -107,6 +107,7 @@ with col_main_tengah:
         {"type": "image", "path": "images/IMG_5348.JPG"},
     ]
 
+    @st.cache_data
     def get_base64_image(image_path):
         try:
             ext = image_path.split('.')[-1].lower()
@@ -121,17 +122,25 @@ with col_main_tengah:
                     heif_file.mode,
                     heif_file.stride,
                 )
-                # Convert to RGB if necessary
-                if image.mode != 'RGB':
-                    image = image.convert('RGB')
-                # Save to BytesIO as JPG
-                buffer = BytesIO()
-                image.save(buffer, format='JPEG')
-                buffer.seek(0)
-                return base64.b64encode(buffer.read()).decode('utf-8')
             else:
-                with open(image_path, "rb") as img_file:
-                    return base64.b64encode(img_file.read()).decode('utf-8')
+                image = Image.open(image_path)
+
+            # Convert to RGB if necessary
+            if image.mode != 'RGB':
+                image = image.convert('RGB')
+
+            # Resize image to max 800px width while maintaining aspect ratio
+            max_width = 800
+            if image.width > max_width:
+                ratio = max_width / image.width
+                new_height = int(image.height * ratio)
+                image = image.resize((max_width, new_height), Image.Resampling.LANCZOS)
+
+            # Save to BytesIO as JPG
+            buffer = BytesIO()
+            image.save(buffer, format='JPEG', quality=85)
+            buffer.seek(0)
+            return base64.b64encode(buffer.read()).decode('utf-8')
         except (FileNotFoundError, Exception) as e:
             st.error(f"Error loading image {image_path}: {e}")
             return None

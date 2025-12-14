@@ -9,3 +9,8 @@
 - [x] Wrap gallery in DIV with class="moodboard-gallery" in app.py
 - [x] Add CSS rules for .moodboard-gallery, img, video, and hover effects in styles.css
 - [x] Test the app to ensure gallery displays and videos autoplay
+
+## Performance Optimization Tasks
+- [x] Add image resizing to max 800px width in get_base64_image function
+- [x] Implement caching for base64 encodings using @st.cache_data
+- [x] Test optimized app performance
