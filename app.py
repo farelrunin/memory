@@ -174,7 +174,7 @@ with col_main_tengah:
 
     with vid_col_tengah:
         # GANTI BARIS INI DENGAN LINK YOUTUBE ANDA
-        youtube_url = "https://youtu.be/MGaQYAODMZY?si=2DzOCyzVc8bxcReR"
+        youtube_url = "https://youtu.be/-9P14YcZ95c?si=y0PkgEM-zhO5zgcs"
         # Fungsi st.video akan menangani tautan YouTube dengan sempurna
         st.video(youtube_url)
 
