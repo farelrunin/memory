@@ -1,0 +1,35 @@
+/* Mengubah warna latar belakang aplikasi utama */
+.stApp {
+    background-color: #005b41;
+}
+/* Mengatur warna header dan teks */
+h1, h2, h3 {
+    color: #005B41;
+}
+/* Sentralisasi judul utama di kolom Header */
+.centered-title h1 {
+    text-align: left;
+    margin-top: 0; /* Menghilangkan margin atas agar judul sejajar logo */
+}
+/* Tombol */
+.stButton>button {
+    background-color: #005B41;
+    color: white;
+    border: 2px solid #005B41;
+}
+.stButton>button:hover {
+    background-color: #004030;
+    border-color: #004030;
+}
+/* Teks Ukhuwah */
+.touching-text {
+    font-style: italic;
+    color: #555555;
+    margin-bottom: 20px;
+    text-align: left; /* Teks di dalam kolom Judul, biarkan align kiri */
+}
+/* Sidebar */
+.stSidebar {
+    background-color: #E0E7E0; /* Hijau Mint Terang */
+    color: #333333;
+}

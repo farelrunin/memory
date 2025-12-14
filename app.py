@@ -4,7 +4,7 @@ import time
 # --- KONFIGURASI DAN WARNA ---
 COLOR_ACCENT = "#005B41" # Hijau Emerald Resmi UKM
 COLOR_BACKGROUND = "#FFFDD0" # Cream/Kuning Pucat
-LOGO_PATH = "logo/Gambar_WhatsApp_2025-12-14_pukul_07.34.52_965dc02a-removebg-preview.png"
+LOGO_PATH = "assets/logo_imam.png"
 
 st.set_page_config(
     page_title="Album Kenangan IMAM",
@@ -13,46 +13,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- CUSTOM CSS ---
-st.markdown(f"""
-<style>
-    /* Mengubah warna latar belakang aplikasi utama */
-    .stApp {{
-        background-color: {COLOR_BACKGROUND};
-    }}
-    /* Mengatur warna header dan teks */
-    h1, h2, h3 {{
-        color: {COLOR_ACCENT};
-    }}
-    /* Sentralisasi judul utama di kolom Header */
-    .centered-title h1 {{
-        text-align: left;
-        margin-top: 0; /* Menghilangkan margin atas agar judul sejajar logo */
-    }}
-    /* Tombol */
-    .stButton>button {{
-        background-color: {COLOR_ACCENT};
-        color: white;
-        border: 2px solid {COLOR_ACCENT};
-    }}
-    .stButton>button:hover {{
-        background-color: #004030;
-        border-color: #004030;
-    }}
-    /* Teks Ukhuwah */
-    .touching-text {{
-        font-style: italic;
-        color: #555555;
-        margin-bottom: 20px;
-        text-align: left; /* Teks di dalam kolom Judul, biarkan align kiri */
-    }}
-    /* Sidebar */
-    .stSidebar {{
-        background-color: #E0E7E0; /* Hijau Mint Terang */
-        color: #333333;
-    }}
-</style>
-""", unsafe_allow_html=True)
+# --- LOAD CUSTOM CSS ---
+with open("styles.css", "r") as f:
+    css = f.read()
+st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 # --- KODE SIDEBAR (NAVIGASI) ---
 with st.sidebar:
@@ -83,8 +47,8 @@ with st.sidebar:
 # --- KODE KONTEN UTAMA (HEADER SENTRALISASI) ---
 
 # 1. HEADER (Logo dan Judul dibuat Rapat dan agak ke tengah)
-# Rasio: [Kosong Kiri (1), Logo (1), Judul (4), Kosong Kanan (1)] -> Total 7
-col_kiri, col_logo, col_title, col_kanan = st.columns([1, 1, 4, 1])
+# Rasio: [Kosong Kiri (0.5), Logo (1), Judul (4), Kosong Kanan (1.5)] -> Total 7, lebih ke kiri
+col_kiri, col_logo, col_title, col_kanan = st.columns([0.5, 1, 4, 1.5])
 
 with col_logo:
     # Logo
