@@ -96,7 +96,7 @@ with col_main_tengah:
     for i, photo in enumerate(photo_paths):
         try:
             with cols_photo[i % 4]: # Memastikan foto masuk ke kolom 1, 2, 3, 4 secara bergantian
-                st.image(photo, caption=f"Kenangan {i+1}", use_column_width=True)
+                st.image(photo, caption=f"Kenangan {i+1}", use_container_width=True)
         except FileNotFoundError:
             cols_photo[i % 4].warning(f"⚠️ Gambar {i+1} tidak ditemukan.")
 
@@ -104,12 +104,16 @@ with col_main_tengah:
 
     # === B. VIDEO UTAMA ===
     st.header("Video Utama Memory")
-    video_path = "https://drive.google.com/file/d/11grWg3bJbICl5p0RP5jCoQhjAFGvgA5V/view?usp=drive_link"
 
-    # Sentralisasi Video di dalam Konten Tengah
+    # Gunakan kolom yang lebih lebar untuk video
     vid_col_kiri, vid_col_tengah, vid_col_kanan = st.columns([1, 4, 1])
+
     with vid_col_tengah:
-        st.video(video_path)
+        # GANTI BARIS INI DENGAN LINK YOUTUBE ANDA
+        youtube_url = "https://youtu.be/MGaQYAODMZY?si=2DzOCyzVc8bxcReR"
+
+        # Fungsi st.video akan menangani tautan YouTube dengan sempurna
+        st.video(youtube_url)
 
     # Pesan penutup
     st.markdown("""
