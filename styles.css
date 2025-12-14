@@ -4,7 +4,7 @@
 }
 /* Mengatur warna header dan teks */
 h1, h2, h3 {
-    color: #005B41;
+    color: white;
 }
 /* Sentralisasi judul utama di kolom Header */
 .centered-title h1 {
@@ -24,7 +24,7 @@ h1, h2, h3 {
 /* Teks Ukhuwah */
 .touching-text {
     font-style: italic;
-    color: #555555;
+    color: white;
     margin-bottom: 20px;
     text-align: left; /* Teks di dalam kolom Judul, biarkan align kiri */
 }
