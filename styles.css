@@ -33,3 +33,19 @@ h1, h2, h3 {
     background-color: #E0E7E0; /* Hijau Mint Terang */
     color: #333333;
 }
+/* Moodboard Gallery */
+.moodboard-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.moodboard-gallery img, .moodboard-gallery video {
+    border-radius: 8px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+.moodboard-gallery img:hover, .moodboard-gallery video:hover {
+    transform: scale(1.05) rotate(0deg) !important;
+    z-index: 10;
+}

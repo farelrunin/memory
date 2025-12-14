@@ -1,5 +1,10 @@
 import streamlit as st
 import time
+import random
+import base64
+from PIL import Image
+import pillow_heif
+from io import BytesIO
 
 # --- KONFIGURASI DAN WARNA ---
 COLOR_ACCENT = "#005B41" # Hijau Emerald Resmi UKM
@@ -78,27 +83,86 @@ col_main_kiri, col_main_tengah, col_main_kanan = st.columns([0.5, 6, 0.5])
 with col_main_tengah:
     st.markdown("---")
     
-    # === A. FOTO GRID ===
-    st.header("Foto Kenangan")
+    # === A. GALERI MOODBOARD ===
+    st.subheader("Kilasan Momen-Momen Indah")
 
-    photo_paths = [
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.06.17_0e4b2043.jpg",
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.06.22_72fe8b47.jpg",
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.06.22_40e25966.jpg",
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.06.23_72e6edc9.jpg",
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.06.24_ebff6e54.jpg",
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.06.24_2b2cdf86.jpg",
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.06.24_c5d10d7b.jpg",
-        "images/Gambar WhatsApp 2025-12-14 pukul 01.11.31_359eb00d.jpg"
+    gallery_items = [
+        {"type": "image", "path": "images/_MG_3192.JPG"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.06.17_0e4b2043.jpg"},
+        {"type": "video", "path": "assets/video/VID_20250606_171025.mp4"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.06.22_72fe8b47.jpg"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.06.22_40e25966.jpg"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.06.23_72e6edc9.jpg"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.06.24_ebff6e54.jpg"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.06.24_2b2cdf86.jpg"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.06.24_c5d10d7b.jpg"},
+        {"type": "image", "path": "images/Gambar WhatsApp 2025-12-14 pukul 01.11.31_359eb00d.jpg"},
+        {"type": "image", "path": "images/IMG_1601.JPG"},
+        {"type": "image", "path": "images/IMG_1614.JPG"},
+        {"type": "image", "path": "images/IMG_1759.JPG"},
+        {"type": "image", "path": "images/IMG_1829.JPG"},
+        {"type": "image", "path": "images/IMG_1851.JPG"},
+        {"type": "image", "path": "images/IMG_3796.HEIC"},
+        {"type": "image", "path": "images/IMG_3821.HEIC"},
+        {"type": "image", "path": "images/IMG_5348.JPG"},
     ]
-    
-    cols_photo = st.columns(4) # Mengubah menjadi 4 kolom agar lebih padat
-    for i, photo in enumerate(photo_paths):
+
+    def get_base64_image(image_path):
         try:
-            with cols_photo[i % 4]: # Memastikan foto masuk ke kolom 1, 2, 3, 4 secara bergantian
-                st.image(photo, caption=f"Kenangan {i+1}", use_container_width=True)
-        except FileNotFoundError:
-            cols_photo[i % 4].warning(f"⚠️ Gambar {i+1} tidak ditemukan.")
+            ext = image_path.split('.')[-1].lower()
+            if ext == 'heic':
+                # Convert HEIC to JPG
+                heif_file = pillow_heif.open_heif(image_path)
+                image = Image.frombytes(
+                    heif_file.mode,
+                    heif_file.size,
+                    heif_file.data,
+                    "raw",
+                    heif_file.mode,
+                    heif_file.stride,
+                )
+                # Convert to RGB if necessary
+                if image.mode != 'RGB':
+                    image = image.convert('RGB')
+                # Save to BytesIO as JPG
+                buffer = BytesIO()
+                image.save(buffer, format='JPEG')
+                buffer.seek(0)
+                return base64.b64encode(buffer.read()).decode('utf-8')
+            else:
+                with open(image_path, "rb") as img_file:
+                    return base64.b64encode(img_file.read()).decode('utf-8')
+        except (FileNotFoundError, Exception) as e:
+            st.error(f"Error loading image {image_path}: {e}")
+            return None
+
+    html_elements = []
+    failed_images = []
+    for item in gallery_items:
+        if item["type"] == "image":
+            width = random.randint(150, 300)
+            rotate = random.uniform(-5, 5)
+            margin = random.randint(0, 10)
+            base64_img = get_base64_image(item["path"])
+            if base64_img:
+                ext = item["path"].split('.')[-1].lower()
+                mime_type = f"image/{ext}" if ext in ['jpg', 'jpeg', 'png', 'gif'] else "image/jpeg"
+                html = f'<img src="data:{mime_type};base64,{base64_img}" width="{width}" style="transform: rotate({rotate}deg); margin: {margin}px;" />'
+            else:
+                failed_images.append(item["path"])
+                html = f'<div style="width: {width}px; height: 100px; background: #ccc; display: inline-block; margin: {margin}px; transform: rotate({rotate}deg);">Image not found</div>'
+        elif item["type"] == "video":
+            width = random.randint(200, 350)
+            rotate = random.uniform(-5, 5)
+            margin = random.randint(0, 10)
+            html = f'<video width="{width}" height="auto" autoplay loop muted playsinline style="transform: rotate({rotate}deg); margin: {margin}px;"><source src="{item["path"]}" type="video/mp4">Browser Anda tidak mendukung tag video.</video>'
+        html_elements.append(html)
+
+    if failed_images:
+        st.warning(f"Failed to load {len(failed_images)} image(s): {', '.join(failed_images)}")
+
+    gallery_html = '<div class="moodboard-gallery">' + ''.join(html_elements) + '</div>'
+    st.markdown(gallery_html, unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -111,7 +175,6 @@ with col_main_tengah:
     with vid_col_tengah:
         # GANTI BARIS INI DENGAN LINK YOUTUBE ANDA
         youtube_url = "https://youtu.be/MGaQYAODMZY?si=2DzOCyzVc8bxcReR"
-
         # Fungsi st.video akan menangani tautan YouTube dengan sempurna
         st.video(youtube_url)
 
